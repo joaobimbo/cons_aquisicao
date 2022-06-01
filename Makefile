@@ -1,9 +1,10 @@
 DIR_Config   = ./lib/Config
 DIR_DRIVER      = ./lib/Driver
+DIR_src 		= ./src
 DIR_Examples = ./examples
 DIR_BIN      = ./bin
 
-OBJ_C = $(wildcard ${DIR_DRIVER}/*.c ${DIR_Examples}/*.c )
+OBJ_C = $(wildcard ${DIR_DRIVER}/*.c ${DIR_src}/*.cpp ${DIR_src}/*.c)
 OBJ_O = $(patsubst %.c,${DIR_BIN}/%.o,$(notdir ${OBJ_C}))
 RPI_DEV_C = $(wildcard $(DIR_BIN)/dev_hardware_SPI.o $(DIR_BIN)/RPI_sysfs_gpio.o $(DIR_BIN)/DEV_Config.o )
 JETSON_DEV_C = $(wildcard $(DIR_BIN)/sysfs_software_spi.o $(DIR_BIN)/sysfs_gpio.o $(DIR_BIN)/DEV_Config.o )

@@ -6,6 +6,8 @@ DIR_BIN      = ./bin
 
 OBJ_C = $(wildcard ${DIR_DRIVER}/*.c ${DIR_src}/*.cpp ${DIR_src}/*.c)
 OBJ_O = $(patsubst %.c,${DIR_BIN}/%.o,$(notdir ${OBJ_C}))
+
+
 RPI_DEV_C = $(wildcard $(DIR_BIN)/dev_hardware_SPI.o $(DIR_BIN)/RPI_sysfs_gpio.o $(DIR_BIN)/DEV_Config.o )
 JETSON_DEV_C = $(wildcard $(DIR_BIN)/sysfs_software_spi.o $(DIR_BIN)/sysfs_gpio.o $(DIR_BIN)/DEV_Config.o )
 
@@ -39,21 +41,23 @@ RPI:RPI_DEV RPI_epd
 JETSON: JETSON_DEV JETSON_epd
 
 TARGET = main
-CC = gcc
+CC = g++
 MSG = -g -O0 -Wall
 CFLAGS += $(MSG)
 
 RPI_epd:${OBJ_O}
+	echo ${OBJ_O}
+	echo "Hello"
 	echo $(@)
 	$(CC) $(CFLAGS) -D RPI $(OBJ_O) $(RPI_DEV_C) -o $(TARGET) $(LIB_RPI) $(DEBUG)
-    
+
 JETSON_epd:${OBJ_O}
 	echo $(@)
 	$(CC) $(CFLAGS) $(OBJ_O) $(JETSON_DEV_C) -o $(TARGET) $(LIB_JETSONI) $(DEBUG)
 
-${DIR_BIN}/%.o:$(DIR_Examples)/%.c
+${DIR_BIN}/%.o:$(DIR_src)/%.c
 	$(CC) $(CFLAGS) -c  $< -o $@ -I $(DIR_Config) -I $(DIR_DRIVER) $(DEBUG)
-    
+
 ${DIR_BIN}/%.o:$(DIR_DRIVER)/%.c
 	$(CC) $(CFLAGS) -c  $< -o $@ -I $(DIR_Config) $(DEBUG)
 

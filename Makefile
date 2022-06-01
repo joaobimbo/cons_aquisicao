@@ -42,7 +42,7 @@ JETSON: JETSON_DEV JETSON_epd
 
 TARGET = main
 CC = g++
-MSG = -g -O0 -Wall
+MSG = -g -O0 -Wall -fpermissive
 CFLAGS += $(MSG)
 
 RPI_epd:${OBJ_O}
